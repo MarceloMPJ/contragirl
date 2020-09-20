@@ -6,6 +6,8 @@ import (
 	keyboard "github.com/eiannone/keyboard"
 )
 
+var observers []func(keyboard.Key)
+
 // Input é uma struct para guardar o valor lido pelo teclado
 type Input struct {
 	key string
@@ -38,5 +40,15 @@ func getKey() {
 			break
 		}
 		fmt.Println("Key:", key)
+	}
+}
+
+func addObserver(observerFunction func(keyboard.Key)) {
+	observers = append(observers, observerFunction)
+}
+
+func notifyAllObservers(key keyboard.Key) {
+	for _, observer := range observers {
+		observer(key)
 	}
 }
