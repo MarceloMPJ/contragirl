@@ -1,12 +1,11 @@
 package keyboard
 
 import (
-	"fmt"
-
-	keyboard "github.com/eiannone/keyboard"
+	"github.com/eiannone/keyboard"
+	keyboardlib "github.com/eiannone/keyboard"
 )
 
-var observers []func(keyboard.Key)
+var observers []func(keyboardlib.Key)
 
 // ListenKeyboard é uma função para escutar todos os comandos vindo do teclado
 func ListenKeyboard() {
@@ -16,33 +15,34 @@ func ListenKeyboard() {
 }
 
 func openKeyboard() {
-	if err := keyboard.Open(); err != nil {
+	if err := keyboardlib.Open(); err != nil {
 		panic(err)
 	}
 }
 
 func closeKeyboard() {
-	_ = keyboard.Close()
+	_ = keyboardlib.Close()
 }
 
 func getKey() {
 	for {
-		_, key, err := keyboard.GetKey()
+		_, key, err := keyboardlib.GetKey()
 		if err != nil {
 			panic(err)
 		}
-		if key == keyboard.KeyEsc {
+		if key == keyboardlib.KeyEsc {
 			break
 		}
-		fmt.Println("Key:", key)
+		notifyAllObservers(key)
 	}
 }
 
-func addObserver(observerFunction func(keyboard.Key)) {
+// AddObserver é a função utilizada para adicionar um novo observerFunction para o slice observers
+func AddObserver(observerFunction func(keyboard.Key)) {
 	observers = append(observers, observerFunction)
 }
 
-func notifyAllObservers(key keyboard.Key) {
+func notifyAllObservers(key keyboardlib.Key) {
 	for _, observer := range observers {
 		observer(key)
 	}
