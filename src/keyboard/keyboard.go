@@ -8,11 +8,6 @@ import (
 
 var observers []func(keyboard.Key)
 
-// Input é uma struct para guardar o valor lido pelo teclado
-type Input struct {
-	key string
-}
-
 // ListenKeyboard é uma função para escutar todos os comandos vindo do teclado
 func ListenKeyboard() {
 	openKeyboard()
