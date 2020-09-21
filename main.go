@@ -1,7 +1,7 @@
 package main
 
-import "github.com/MarceloMPJ/contragirl/src/keyboard"
+import "github.com/MarceloMPJ/contragirl/src/game"
 
 func main() {
-	keyboard.ListenKeyboard()
+	game.Start()
 }
